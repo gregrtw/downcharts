@@ -25,6 +25,26 @@ def find_charts(driver):
     charts_by_genre = root.find_elements_by_xpath(
         "//*[contains(@id, '-container')]")
     return charts_by_genre
+
+
+def parse_songs_by_genre(chart_genre):
+    genre_id = chart_genre.get_attribute('id')
+    genre = genre_id[:genre_id.find('-container')]
+    tracks = chart_genre.find_elements_by_id(genre)
+    result = {
+        genre: []
+    }
+
+    for track in tracks:
+        t_title = track.find_element_by_class_name('djc-track-title').find_element_by_css_selector('a').text
+        t_artist = track.find_element_by_class_name('djc-track-artist').find_element_by_css_selector('p').text
+        result[genre].append(
+            {
+                'title': t_title,
+                'artist': t_artist
+            }
+        )
+    return result
 def main():
     pass
 
