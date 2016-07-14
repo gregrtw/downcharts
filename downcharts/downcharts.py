@@ -6,6 +6,10 @@ from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 
 
+def Driver_get_source(url):
+    driver = webdriver.Chrome()
+    driver.get(url)
+    return driver
 
 def main():
     pass
