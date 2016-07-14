@@ -60,7 +60,7 @@ def compile_chart(url):
 
 
 def main():
-    pass
+    print(compile_chart("http://www.djcity.com/charts/"))
 
 
 if __name__ == '__main__':
