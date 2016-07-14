@@ -45,6 +45,20 @@ def parse_songs_by_genre(chart_genre):
             }
         )
     return result
+
+
+def compile_chart(url):
+    compiled = {}
+    try:
+        driver = Driver_get_source(url)
+        charts = find_charts(driver)
+        for c_genre in charts:
+            compiled.update(parse_songs_by_genre(c_genre))
+    finally:
+        driver.quit()
+    return compiled
+
+
 def main():
     pass
 
