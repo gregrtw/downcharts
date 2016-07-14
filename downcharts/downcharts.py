@@ -11,6 +11,20 @@ def Driver_get_source(url):
     driver.get(url)
     return driver
 
+def find_charts(driver):
+    """
+    Hardcoded example with citydj.com
+    """
+    WebDriverWait(driver, 10).until(
+        EC.presence_of_element_located(
+                (By.CLASS_NAME, 'djc-track-artist') | (By.CLASS_NAME, 'djc-track-title')
+                | (By.ID, 'trends-charts')
+            )
+        )
+    root = driver.find_element_by_id('trends-charts')
+    charts_by_genre = root.find_elements_by_xpath(
+        "//*[contains(@id, '-container')]")
+    return charts_by_genre
 def main():
     pass
 
