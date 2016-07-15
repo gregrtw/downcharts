@@ -17,8 +17,7 @@ def find_charts(driver):
     """
     WebDriverWait(driver, 10).until(
         EC.presence_of_element_located(
-                (By.CLASS_NAME, 'djc-track-artist') | (By.CLASS_NAME, 'djc-track-title')
-                | (By.ID, 'trends-charts')
+                (By.CLASS_NAME, 'djc-track-artist')
             )
         )
     root = driver.find_element_by_id('trends-charts')
@@ -30,7 +29,7 @@ def find_charts(driver):
 def parse_songs_by_genre(chart_genre):
     genre_id = chart_genre.get_attribute('id')
     genre = genre_id[:genre_id.find('-container')]
-    tracks = chart_genre.find_elements_by_id(genre)
+    tracks = chart_genre.find_element_by_id(genre).find_elements_by_xpath('./li')
     result = {
         genre: []
     }
