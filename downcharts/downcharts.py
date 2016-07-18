@@ -6,10 +6,31 @@ from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 
 
-def Driver_get_source(url):
-    driver = webdriver.Chrome()
-    driver.get(url)
-    return driver
+class Driver:
+
+    def __init__(self, url, driver='Chrome'):
+        self.driver_string = driver
+        self.url = url
+
+    def __str__(self):
+        return self.driver_string + " Driver to open " + self.url
+
+    def setup_driver(self):
+        if self.driver_string == 'Chrome':
+            self.driver = webdriver.Chrome()
+        if self.driver_string == 'Firefox':
+            self.driver = webdriver.Firefox()
+        # TODO: Add other drivers
+
+    def get_source(self):
+        self.driver.get(self.url)
+
+
+# def Driver_get_source(url):
+#     driver = webdriver.Chrome()
+#     driver.get(url)
+#     return driver
+
 
 def find_charts(driver):
     """
@@ -49,12 +70,14 @@ def parse_songs_by_genre(chart_genre):
 def compile_chart(url):
     compiled = {}
     try:
-        driver = Driver_get_source(url)
-        charts = find_charts(driver)
+        driver = Driver(url)
+        driver.setup_driver()
+        driver.get_source()
+        charts = find_charts(driver.driver)
         for c_genre in charts:
             compiled.update(parse_songs_by_genre(c_genre))
     finally:
-        driver.quit()
+        driver.driver.quit()
     return compiled
 
 
