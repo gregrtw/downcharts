@@ -8,28 +8,22 @@ from selenium.webdriver.support import expected_conditions as EC
 
 class Driver:
 
-    def __init__(self, url, driver='Chrome'):
+    def __init__(self, driver='Chrome'):
         self.driver_string = driver
-        self.url = url
 
     def __str__(self):
-        return self.driver_string + " Driver to open " + self.url
+        return self.driver_string + " Driver"
 
     def setup_driver(self):
         if self.driver_string == 'Chrome':
             self.driver = webdriver.Chrome()
         if self.driver_string == 'Firefox':
             self.driver = webdriver.Firefox()
-        # TODO: Add other drivers
+        # TODO: Add other driver types (IE, generic, etc.)
 
-    def get_source(self):
-        self.driver.get(self.url)
+    def get_source(self, url):
+        self.driver.get(url)
 
-
-# def Driver_get_source(url):
-#     driver = webdriver.Chrome()
-#     driver.get(url)
-#     return driver
 
 
 def find_charts(driver):
