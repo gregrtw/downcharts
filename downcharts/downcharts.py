@@ -25,6 +25,22 @@ class Driver:
         self.driver.get(url)
 
 
+class Website:
+
+    def __init__( self, url ):
+        self.url = url
+        self.driver = Driver()
+        self.driver.setup_driver()  # could add a driver_string to Driver()
+                                    # instance to modify the default Chrome driver
+        self.results = {}  # resulting categories and tracks go here.
+        self.count = 0  # number of tracks on charts in website
+
+    def __str__( self ):
+        return ' : '.join([str(self.driver), self.url, '(' + str(self.count) + ') tracks'])
+
+    def get_source( self ):
+        self.driver.get_source(self.url)
+
             )
 
 
