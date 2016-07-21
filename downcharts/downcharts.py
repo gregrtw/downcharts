@@ -43,6 +43,18 @@ class Website:
 
             )
 
+    def cleanup( self ):
+        """
+            FIXME: make quit handling by Driver and refactor into better named method
+        """
+        self.driver.driver.quit()
+
+    def get_results( self ):
+        return self.results
+
+    def get_count( self ):
+        return self.count
+
 
 def main():
 
