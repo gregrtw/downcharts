@@ -41,7 +41,56 @@ class Website:
     def get_source( self ):
         self.driver.get_source(self.url)
 
+    def _parse_songs_by_genre( self, chart_genre ):
+        """
+        Private helper function to compile_chart()
+            FIXME: hardcoded values for www.djcity.com
+        """
+        genre_id = chart_genre.get_attribute('id')
+        genre = genre_id[:genre_id.find('-container')]
+        tracks = chart_genre.find_element_by_id(genre).find_elements_by_xpath('./li')
+        result = {
+            genre: []
+        }
+
+        for track in tracks:
+            t_title = track.find_element_by_class_name('djc-track-title').find_element_by_css_selector('a').text
+            t_artist = track.find_element_by_class_name('djc-track-artist').find_element_by_css_selector('p').text
+            result[genre].append(
+                {
+                    'title': t_title,
+                    'artist': t_artist
+                }
             )
+            self.count += 1
+        return result
+
+    def find_charts( self ):
+        """
+        FIXME: hardcoded values for www.djcity.com
+        """
+        d = self.driver.driver
+        WebDriverWait( d, 10 ).until(
+            EC.presence_of_element_located(
+                    (By.CLASS_NAME, 'djc-track-artist')
+                )
+            )
+        root = d.find_element_by_id('trends-charts')
+        charts_by_genre = root.find_elements_by_xpath(
+            "//*[contains(@id, '-container')]")
+        return charts_by_genre  
+  
+    def compile_chart( self ):
+        """
+            FIXME: add exception handling
+        """
+        try:
+            self.get_source()
+            charts = self.find_charts()
+            for c_genre in charts:
+                self.results.update(self._parse_songs_by_genre(c_genre))
+        finally:
+            self.cleanup()
 
     def cleanup( self ):
         """
