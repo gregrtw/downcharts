@@ -106,6 +106,11 @@ class Website:
 
 
 def main():
+    url = "http://www.djcity.com/charts/"
+    djcity = Website(url)
+    djcity.compile_chart()
+    print(djcity.get_results())
+    print("Website Info:\n{}".format(str(djcity)))
 
 
 if __name__ == '__main__':
