@@ -78,7 +78,8 @@ class Website:
         root = d.find_element_by_id('trends-charts')
         charts_by_genre = root.find_elements_by_xpath(
             "//*[contains(@id, '-container')]")
-        return charts_by_genre  
+        print (charts_by_genre)
+        return charts_by_genre
   
     def compile_chart( self ):
         """
@@ -104,8 +105,46 @@ class Website:
     def get_count( self ):
         return self.count
 
+class Downloader:
+    def __init__( self, url ):
+        self.url = url 
+        self.driver = Driver()
+        self.driver.setup_driver()  
+
+    def __str__( self ):
+        return self.url
+
+    def get_search_source( self, url ):
+        self.driver.get_source(url)
+
+    def download_song( self, title, artist):
+        """ 
+        FIXME: Hardcoded for http://www.my-free-mp3.com/mp3/
+        """
+        self.get_search_source("%s+%s+%s" %(self.url, title, artist))
+
+        d = self.driver.driver
+        WebDriverWait( d, 10 ).until(
+            EC.presence_of_element_located(
+                    (By.ID, 'content')
+                )
+            )
+        playlist = d.find_element_by_id('content')
+        items = playlist.find_elements_by_tag_name("li")
+
+        for item in items:
+            item
+            print (item.text)
+
+    def download_songs( self, songs):
+        for song in songs:
+            download_song(song)
+
 
 def main():
+#    downloader = Downloader("http://www.my-free-mp3.com/mp3/")
+#    downloader.download_song("One Dance", "Drake")
+
     url = "http://www.djcity.com/charts/"
     djcity = Website(url)
     djcity.compile_chart()
