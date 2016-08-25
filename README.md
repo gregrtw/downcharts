@@ -1,2 +1,0 @@
-# downcharts
-Top Charts downloader
