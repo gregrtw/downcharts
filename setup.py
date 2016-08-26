@@ -40,6 +40,7 @@ setup(
     url="https://github.com/gregrtw/downcharts",
     license="Restrictive License",
     author="Gregory Houle, Hans Daigle",
+    setup_requires=['pytest-runner'],
     tests_require=['pytest'],
     install_requires=[],
     cmdclass={'test': PyTest},
@@ -58,9 +59,6 @@ setup(
         'Intended Audience :: Other Audience',
         'Operating System :: OS Independent'
     ],
-    extras_require={
-        'testing': ['pytest'],
-    },
     scripts=[
         'downcharts/downcharts.py'
     ],
