@@ -1,4 +1,5 @@
 import sys
+import configparser
 
 from selenium import webdriver
 from selenium.webdriver.common.by import By
@@ -26,9 +27,13 @@ class Driver:
 
 
 class Website:
+    config_path = './website.ini'
+    config = configparser.ConfigParser()
 
-    def __init__( self, url ):
+    def __init__( self, url, website_name ):
         self.url = url
+        self.website = website_name  # must match configuration website id
+        self.config.read(self.config_path)
         self.driver = Driver()
         self.driver.setup_driver()  # could add a driver_string to Driver()
                                     # instance to modify the default Chrome driver
@@ -108,7 +113,7 @@ class Website:
 
 def main():
     url = "http://www.djcity.com/charts/"
-    djcity = Website(url)
+    djcity = Website(url, 'djcity')
     djcity.compile_chart()
     print(djcity.get_results())
     print("Website Info:\n{}".format(str(djcity)))
