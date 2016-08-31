@@ -9,3 +9,6 @@ parse_songs_title_class_name: <element class name to track title>
 parse_songs_title_css_selector: <css selector for title text>
 parse_songs_artist_class_name: <element class name to track artist>
 parse_songs_artist_css_selector: <css selector for artist text>
+
+[example2_website]
+...
