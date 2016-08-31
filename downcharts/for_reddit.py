@@ -2,7 +2,6 @@ import praw
 import configparser
 
 
-class Reddit:
 
 class RedditBot(object):
     ini_path = "./praw.ini"
