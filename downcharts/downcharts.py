@@ -107,9 +107,6 @@ class Website:
 
 
 def main():
-#    downloader = Downloader("http://www.my-free-mp3.com/mp3/")
-#    downloader.download_song("One Dance", "Drake")
-
     url = "http://www.djcity.com/charts/"
     djcity = Website(url)
     djcity.compile_chart()
