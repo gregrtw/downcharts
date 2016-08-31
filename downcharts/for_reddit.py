@@ -2,6 +2,7 @@ import praw
 import configparser
 import requests
 
+from threading import Thread
 
 
 class RedditBot(object):
@@ -39,6 +40,14 @@ class RedditBot(object):
         """
         Parse comment to find message and extra command parameter
         """
+        if (
+            "topmusiccharts!" in comment.body.lower()
+            or "!topmusiccharts" in comment.body.lower()
+            and comment.id not in self.seen_comment
+            and 'TopMusicCharts' != str(comment.author)
+        ):
+            t = Thread(target=self.run())
+            t.start()
 
     def build_reply(self):
         """
