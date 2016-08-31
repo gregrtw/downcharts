@@ -49,18 +49,32 @@ class Website:
     def _parse_songs_by_genre( self, chart_genre ):
         """
         Private helper function to compile_chart()
-            FIXME: hardcoded values for www.djcity.com
         """
-        genre_id = chart_genre.get_attribute('id')
-        genre = genre_id[:genre_id.find('-container')]
-        tracks = chart_genre.find_element_by_id(genre).find_elements_by_xpath('./li')
+        genre_id = chart_genre.get_attribute(
+            self.config.get(self.website, 'parse_songs_genre_id')
+        )
+        genre = genre_id[:genre_id.find(
+            self.config.get(self.website, 'parse_songs_genre_name')
+        )]
+        tracks = chart_genre.find_element_by_id(genre).find_elements_by_xpath(
+            self.config.get(self.website, 'parse_songs_track_list_xpath')
+        )
         result = {
             genre: []
         }
 
         for track in tracks:
-            t_title = track.find_element_by_class_name('djc-track-title').find_element_by_css_selector('a').text
-            t_artist = track.find_element_by_class_name('djc-track-artist').find_element_by_css_selector('p').text
+            # Maybe use if's to split on websites if the paths vary too much
+            t_title = track.find_element_by_class_name(
+                self.config.get(self.website, 'parse_songs_title_class_name')
+            ).find_element_by_css_selector(
+                self.config.get(self.website, 'parse_songs_title_css_selector')
+            ).text
+            t_artist = track.find_element_by_class_name(
+                self.config.get(self.website, 'parse_songs_artist_class_name')
+            ).find_element_by_css_selector(
+                self.config.get(self.website, 'parse_songs_artist_css_selector')
+            ).text
             result[genre].append(
                 {
                     'title': t_title,
@@ -71,18 +85,20 @@ class Website:
         return result
 
     def find_charts( self ):
-        """
-        FIXME: hardcoded values for www.djcity.com
-        """
         d = self.driver.driver
         WebDriverWait( d, 10 ).until(
             EC.presence_of_element_located(
-                    (By.CLASS_NAME, 'djc-track-artist')
+                    (By.CLASS_NAME,
+                        self.config.get(self.website, 'find_charts_class')
+                    )
                 )
             )
-        root = d.find_element_by_id('trends-charts')
+        root = d.find_element_by_id(
+            self.config.get(self.website, 'find_charts_root_id')
+        )
         charts_by_genre = root.find_elements_by_xpath(
-            "//*[contains(@id, '-container')]")
+            self.config.get(self.website, 'find_charts_genre_list_xpath')
+        )
         print (charts_by_genre)
         return charts_by_genre
   
