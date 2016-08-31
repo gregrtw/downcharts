@@ -7,7 +7,7 @@ Features
 
 * Retrieve top songs for various music genre (djcity, soundcloud charts, more..)
 * Create playlists on your favorite webservices (Apple Music, Spotify, Soundcloud, Google Music, more..)
-* Post formatted playlists on social media via robot accounts (Reddit, Twitter, Facebook)
+* Post formatted playlists on social media via robot accounts (Reddit, Twitter)
 
 .. note:: Feature list subject to change without notice
 
@@ -26,3 +26,4 @@ Author
 ------
 
 Greg Houle <houle.greg@gmail.com>
+Hans D'aigle <hansdaigle@me.com>
