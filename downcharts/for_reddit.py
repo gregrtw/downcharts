@@ -27,4 +27,35 @@ class RedditBot(object):
     def __str__(self):
         return self.reddit.user.me()
 
-subreddit = reddit.subreddit('TopMusicCharts')
+    def run(self):
+        pass
+
+    def process_submission(self):
+        pass
+
+    def parse_comment(self, comment):
+        """
+        Parse comment to find message and extra command parameter
+        """
+
+    def build_reply(self):
+        """
+        Build the reply to the call.
+        Print the formatted listing (Bullet/Numbered)
+        """
+        pass
+
+
+# # # #
+# Main
+# # # #
+
+def main():
+    print("Launched!")
+    reddit = RedditBot()
+
+
+
+
+if __name__ == '__main__':
+    main()
