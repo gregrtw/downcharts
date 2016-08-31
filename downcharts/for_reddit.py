@@ -12,6 +12,7 @@ class RedditBot(object):
         "|[^(Feedback)](/message/compose/?to=TopMusicCharts&subject=Feedback)"
         "\n|-|-|-|-|-|-|"
     )
+    seen_comment = []
 
     def __init__(self):
         config = configparser.ConfigParser()
