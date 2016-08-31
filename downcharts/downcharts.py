@@ -99,7 +99,6 @@ class Website:
         charts_by_genre = root.find_elements_by_xpath(
             self.config.get(self.website, 'find_charts_genre_list_xpath')
         )
-        print (charts_by_genre)
         return charts_by_genre
   
     def compile_chart( self ):
