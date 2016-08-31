@@ -3,7 +3,16 @@ import configparser
 
 
 class Reddit:
+
+class RedditBot(object):
     ini_path = "./praw.ini"
+    end_message = (
+        "\n\n_______\n\n"
+        "|[^(FAQs)](/r/TopMusicCharts/comments/50d7zl/topmusiccharts_bot_info/)"
+        "|[^(Commands)](/r/TopMusicCharts/comments/)"
+        "|[^(Feedback)](/message/compose/?to=TopMusicCharts&subject=Feedback)"
+        "\n|-|-|-|-|-|-|"
+    )
 
     def __init__(self):
         config = configparser.ConfigParser()
