@@ -27,7 +27,7 @@ class Driver(object):
         self.driver_string = driver
 
     def __str__(self):
-        """String representation of a Driver instance."""
+        """Return a string representation of a Driver instance."""
         return self.driver_string + " Driver"
 
     def setup_driver(self):
@@ -51,7 +51,7 @@ class Driver(object):
         self.driver.get(url)
 
 
-class Website:
+class Website(object):
     """Class of a website hosting music charts rankings.
 
     The Website class is the handler for all functionalities related to a website and
@@ -75,20 +75,31 @@ class Website:
         """Constructor for Website class.
 
         Args:
-            url:
-            website_name:
+            url: The url for the requested website. (string)
+            website_name: The identifier used in the configuration file
+                to represent that website. (string)
+
+        Raises:
+            NoSectionError: An error happened reading a configuration file subsection. (.ini)
         """
-        self.url = url
-        self.website = website_name  # must match configuration website id
-        self.config.read(self.config_path)
-        self.driver = Driver()
-        # NOTE: Could add a driver_string to Driver() instance to modify the default Chrome driver
-        self.driver.setup_driver()
-        self.results = {}
-        self.count = 0
+        try:
+            self.url = url
+            self.config.read(self.config_path)
+            # Testing if the website_name variable is a valid configuration id
+            self.config.items(website_name)
+            # Does not raise error? Then proceed.
+            self.website = website_name
+            self.driver = Driver()
+            # NOTE: Could add a driver_string to Driver() instance to modify the default Chrome driver
+            self.driver.setup_driver()
+            self.results = {}
+            self.count = 0
+        except configparser.NoSectionError as e:
+            print(e + " in the Configuration File.\nSupply a valid website configuration id.")
+            raise SystemExit
 
     def __str__(self):
-        """String representation of a Website instance."""
+        """Return a string representation of a Website instance."""
         return ' : '.join([str(self.driver), self.url, '(' + str(self.count) + ') tracks'])
 
     def get_source(self):
@@ -99,7 +110,21 @@ class Website:
         """Private helper function to compile_chart().
 
         Args:
-            chart_genre:
+            chart_genre: The root node for a genre in the webpage.
+                This node is parent to all the nodes containing the information for top tracks,
+                including title and artist information.
+
+        Returns:
+            A dict mapping genre name's with a list of dict objects containing
+                a track's artist and title that represent the chart matching that genre.
+            Ex:
+                {
+                    'house': [{'artist': 'ARTIST', 'title': 'TITLE'}, {}, {}, etc.],
+                    'GENRE': [],
+                    etc.
+                }
+            If a genre key is missing, then it was not on the website or
+                did not use the same xpaths
         """
         genre_id = chart_genre.get_attribute(
             self.config.get(self.website, 'parse_songs_genre_id')
@@ -136,20 +161,27 @@ class Website:
         return result
 
     def find_charts(self):
-        """Function used to find the root node of charts within a Website."""
+        """Function used to find the root node of charts within a Website.
+
+        Returns:
+            A List of root elements for each genre of music in the charts.
+            This list is ready to be processed one genre at a time.
+        """
         d = self.driver.driver
         WebDriverWait(d, 10).until(
             EC.presence_of_element_located(
                 (By.CLASS_NAME, self.config.get(self.website, 'find_charts_class'))))
+
         root = d.find_element_by_id(self.config.get(self.website, 'find_charts_root_id'))
+
         charts_by_genre = root.find_elements_by_xpath(
             self.config.get(self.website, 'find_charts_genre_list_xpath')
         )
         return charts_by_genre
-  
+
     def compile_chart(self):
         """Compile the music charts of this Website."""
-        #FIXME: add exception handling.
+        # FIXME: add exception handling.
         try:
             self.get_source()
             charts = self.find_charts()
