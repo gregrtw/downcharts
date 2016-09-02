@@ -95,7 +95,7 @@ class Website(object):
             self.results = {}
             self.count = 0
         except configparser.NoSectionError as e:
-            print(e + " in the Configuration File.\nSupply a valid website configuration id.")
+            print(str(e) + " in the Configuration File.\nSupply a valid website configuration id.")
             raise SystemExit
 
     def __str__(self):
