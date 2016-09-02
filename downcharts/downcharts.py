@@ -126,26 +126,41 @@ class Website(object):
             If a genre key is missing, then it was not on the website or
                 did not use the same xpaths
         """
+        # CONFIG: the element attribute that identifies the Genre
+        #   (ex: the attribute to get 'house-container' in djcity)
         genre_id = chart_genre.get_attribute(
             self.config.get(self.website, 'parse_songs_genre_id')
         )
+        # CONFIG: the part of the above Genre identifier that
+        #   needs to be cut out of the end to represent a valid Genre
+        #   (ex: 'house-container' - '-container' => 'house'.
+        #       In this case the configuration would be '-container')
         genre = genre_id[:genre_id.find(
             self.config.get(self.website, 'parse_songs_genre_name')
         )]
+
+        # CONFIG: The xpath to find a List of tracks for that root element.
+        #   (ex: './li' is the xpath to find, from the element 'house' all the tracks)
         tracks = chart_genre.find_element_by_id(genre).find_elements_by_xpath(
             self.config.get(self.website, 'parse_songs_track_list_xpath')
         )
+
+        # Initialize the basic structure for the results
         result = {
             genre: []
         }
 
         for track in tracks:
             # Maybe use if's to split on websites if the paths vary too much
+            # CONFIG: The element class to find the Track title and the CSS selector
+            #   to get the title text
             t_title = track.find_element_by_class_name(
                 self.config.get(self.website, 'parse_songs_title_class_name')
             ).find_element_by_css_selector(
                 self.config.get(self.website, 'parse_songs_title_css_selector')
             ).text
+            # CONFIG: The element class to find the Track's artist and the CSS selector
+            #   to get the artist text
             t_artist = track.find_element_by_class_name(
                 self.config.get(self.website, 'parse_songs_artist_class_name')
             ).find_element_by_css_selector(
@@ -167,6 +182,10 @@ class Website(object):
             A List of root elements for each genre of music in the charts.
             This list is ready to be processed one genre at a time.
         """
+
+        # CONFIG: this configured class is an element you wait for,
+        #   before beginning to parse the website.
+        #   (Basically the closest CLASS to what you want to retrieve)
         d = self.driver.driver
         WebDriverWait(d, 10).until(
             EC.presence_of_element_located(
@@ -174,6 +193,8 @@ class Website(object):
 
         root = d.find_element_by_id(self.config.get(self.website, 'find_charts_root_id'))
 
+        # CONFIG: The xpath to retrieve a List of elements containing all the genre for the charts.
+        #   (ex: "//*[contains(@id, '-container')]" will retrieve all the genre for djcity)
         charts_by_genre = root.find_elements_by_xpath(
             self.config.get(self.website, 'find_charts_genre_list_xpath')
         )
