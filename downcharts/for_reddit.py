@@ -121,9 +121,7 @@ def main():
     json_results = request.json()
     results = json_results["data"]
     for comment in results:
-        comment['_replies'] = ''
-        reddit_comment = praw.objects.Comment(reddit, comment)
-        reddit.parse_comment(reddit_comment)
+        reddit.parse_comment(comment)
 
 
 if __name__ == '__main__':
