@@ -40,6 +40,15 @@ class CommandError(RedditBotError):
         super().__init__(args, kwargs)
 
 
+class EmptyCommandError(CommandError):
+    """Class to handle an empty command."""
+
+    def __init__(self, *args, **kwargs):
+        """EmptyCommandError Constructor."""
+        print("The Command is empty")
+        super().__init__(args, kwargs)
+
+
 class RedditBot(object):
     """A class for all bot interactions with the Reddit website.
 
