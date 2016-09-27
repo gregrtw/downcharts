@@ -148,8 +148,25 @@ class RedditBot(object):
         """Runner for RedditBot instance.
 
         Runner that executes all the tasks required for a complete and atomic action by a bot.
+
+        FEATURE:
+            Add a banlist for reddit authors that try to abuse the bot.
+                Add a gather_information() method that identifies an author and log the attempts.
+                Once enough evidence is gathered, we can add the user manually or automatically
+                in a banlist.
         """
-        pass
+        if comment:
+            command = self.process_submission(comment)
+            result = self._process_command(command)
+            reply = self.build_reply(result.get("valid_string"))
+            if result.get("invalid_string", None):
+                reply += self.addon_reply(result["invalid_string"])
+            if result.get("badformat_string", None):
+                reply += self.addon_reply(result["badformat_string"])
+            self.send_reply(reply)
+        else:
+            raise RedditBotError("MissingComment")  # FIXME: refactor into CommentError?
+
 
     def process_submission(self):
         """Process a submission and take appropriate action."""
