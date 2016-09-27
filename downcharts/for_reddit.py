@@ -49,6 +49,15 @@ class EmptyCommandError(CommandError):
         super().__init__(args, kwargs)
 
 
+class FormatCommandError(CommandError):
+    """Class to handle an invalid format command."""
+
+    def __init__(self, _list, *args, **kwargs):
+        """Constructor of FormatCommandError."""
+        self.list = _list
+        super().__init__(args, kwargs)
+
+
 class RedditBot(object):
     """A class for all bot interactions with the Reddit website.
 
