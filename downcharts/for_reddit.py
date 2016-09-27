@@ -102,6 +102,25 @@ Options:
 """
 
 
+def get_new_comments(subject="TopMusicCharts", limit=100):
+    """New Comment Getter from Reddit using Pushshift api.
+
+    Get new comments from Reddit that contains 'subject' up to a maximum of 'limit'
+
+    Keyword Arguments:
+        subject {str} -- the subject to look for in comments (default: {"TopMusicCharts"})
+        limit {number} -- the maximum number of comments to get (default: {100})
+
+    Returns:
+        Requests response -- The content of the response is a JSON object
+    """
+    subject = "%22" + subject + "%22"
+    return requests.get(
+        "https://api.pushshift.io/reddit/search?q={subject}&limit={limit}".format(
+            subject=subject, limit=limit
+        ),
+        headers={'User-Agent': 'TopMusicCharts for reddit 0.1.1 (by /u/TopMusicCharts)'}
+    )
 
 
 # # # #
@@ -112,14 +131,8 @@ def main():
     """Main entry that launches a RedditBot session."""
     print("Launched!")
     reddit = RedditBot()
-    request = requests.get(
-        "https://api.pushshift.io/reddit/search?q={0}&limit={1}".format(
-            "%22TopMusicCharts%22", "100"
-        ),
-        headers={'User-Agent': 'downcharts for reddit 0.1.1 (by /u/TopMusicCharts)'}
-    )
-    json_results = request.json()
-    results = json_results["data"]
+    request = get_new_comments(subject="TopMusicCharts", limit=100)
+    results = request.json()["data"]
     for comment in results:
         reddit.parse_comment(comment)
 
