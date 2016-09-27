@@ -67,6 +67,15 @@ class InvalidCommandError(CommandError):
         super().__init__(args, kwargs)
 
 
+class InvalidActionCommandError(CommandError):
+    """Class to handle an invalid action in a command."""
+
+    def __init__(self, msg, *args, **kwargs):
+        """Constructor of InvalidActionCommandError."""
+        print("Invalid Actions were found in the Command.\n", msg)
+        super().__init__(args, kwargs)
+
+
 class RedditBot(object):
     """A class for all bot interactions with the Reddit website.
 
