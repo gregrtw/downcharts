@@ -209,16 +209,6 @@ class RedditBot(object):
         """
         pass
 
-    def parse_comment(self, comment):
-        """Parse comment to find message and extra command parameter."""
-        if (
-            "topmusiccharts!" in comment.body.lower() or
-            "!topmusiccharts" in comment.body.lower() and
-            comment.id not in self.seen_comment and
-            'TopMusicCharts' != str(comment.author)
-        ):
-            t = Thread(target=self.run())
-            t.start()
 
     def build_reply(self, message=""):
         """Build the reply to the call.
