@@ -90,7 +90,8 @@ class Website(object):
             # Does not raise error? Then proceed.
             self.website = website_name
             self.driver = Driver()
-            # NOTE: Could add a driver_string to Driver() instance to modify the default Chrome driver
+            # NOTE: Could add a driver_string to Driver()
+            #   instance to modify the default Chrome driver
             self.driver.setup_driver()
             self.results = {}
             self.count = 0
@@ -182,7 +183,6 @@ class Website(object):
             A List of root elements for each genre of music in the charts.
             This list is ready to be processed one genre at a time.
         """
-
         # CONFIG: this configured class is an element you wait for,
         #   before beginning to parse the website.
         #   (Basically the closest CLASS to what you want to retrieve)
