@@ -167,9 +167,33 @@ class RedditBot(object):
         else:
             raise RedditBotError("MissingComment")  # FIXME: refactor into CommentError?
 
+    def process_submission(self, submission=None):
+        """Extract a command from a matching submission.
 
-    def process_submission(self):
-        """Process a submission and take appropriate action."""
+        Process a submitted comment/posting to find a TopMusicCharts! tag.
+            Then, extract the command from the submission and return that command.
+
+        Keyword Arguments:
+            submission {dict} -- The submission object containing the body
+                and metadata about itself and its author (default: {None})
+
+        Returns:
+            str -- The command to be executed (requested by user)
+        """
+        command = None
+        try:
+            if submission:
+                submission_body = submission["body"]
+                assert type(submission_body) == str
+                match = re.search(r'(!*)TopMusicCharts(!*)', submission["body"])
+                command = submission_body[match.start():].split("\n")[0]
+        except KeyError as e:
+            print("KeyError:", e)
+        except AssertionError as e:
+            print("AssertionError: {0}".format(str(type(submission_body))),
+                  "\nThe body of the submission is not a string.")
+        return command
+
         pass
 
     def parse_comment(self, comment):
