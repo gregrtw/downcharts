@@ -194,6 +194,19 @@ class RedditBot(object):
                   "\nThe body of the submission is not a string.")
         return command
 
+    def _execute_action(self, action="", value=""):
+        """Evaluate the action.
+
+        Take the action command name and the value assigned to it; evaluate the result
+            and return the string resulting from the action.
+
+        Keyword Arguments:
+            action {str} -- Action identifier (default: {""})
+            value {str} -- Value assigned to action (default: {""})
+
+        Returns:
+            result {str} -- Evaluated action string (ex: Formatted top music list)
+        """
         pass
 
     def parse_comment(self, comment):
