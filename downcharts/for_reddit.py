@@ -80,13 +80,15 @@ class RedditBot(object):
     """A class for all bot interactions with the Reddit website.
 
     Attributes:
-        ini_path: String of the path to the configuration options
-            of Python Reddit API Wrapper (PRAW).
-        end_message: String that represents the end of the message for all comments submitted
+        action_separator {str} -- The separator used to split actions. (Default: '=')
+        cmd_separator {str} -- The separator used to split a command. (Default: None)
+            NOTE: Highly recommend to use Default!
+        config {ConfigParser} -- ConfigParser used to parse .ini configuration files.
+        end_message {str} -- Represents the end of the message for all comments submitted
             by a bot instance.
-        seen_comment: List of the comment id's of previously parsed comments.
-        config: Instance of ConfigParser used to parse configuration files.
-        reddit: Reddit instance from PRAW to communicate with the Reddit API & website.
+        ini_path {str} -- The path to the configuration options of PRAW4.
+        reddit {Reddit} -- Reddit instance from PRAW4 to communicate with the Reddit API & website.
+        seen_comment {list} -- Comments id's of previously parsed comments.
     """
 
     ini_path = "./praw.ini"
