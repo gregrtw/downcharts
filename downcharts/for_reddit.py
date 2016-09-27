@@ -15,6 +15,31 @@ class RedditBotError(Exception):
         super().__init__(args, kwargs)
 
 
+class CommandError(RedditBotError):
+    """CommandError class for exceptions with RedditBot commands.
+
+    Used to report errors with Command with the  RedditBot
+
+    Extends:
+        RedditBotError
+
+    Variables:
+        Keyword Arguments:
+            cmd {str} -- the command string passed in kwargs
+            action {str} -- the action string passed in kwargs
+
+        Returns:
+            Reports the error
+    """
+
+    def __init__(self, *args, **kwargs):
+        """CommandError constructor."""
+        cmd = kwargs.pop("cmd", None)
+        if cmd:
+            print(cmd, "is an undefined Command.")
+        super().__init__(args, kwargs)
+
+
 class RedditBot(object):
     """A class for all bot interactions with the Reddit website.
 
