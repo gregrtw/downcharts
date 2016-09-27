@@ -209,6 +209,79 @@ class RedditBot(object):
         """
         pass
 
+    def _process_command(self, command=""):
+        """[Private] Process a command, execute appropriate action.
+
+        The command is split on spaces, then the resulting chunks are split on '=' sign
+            and stored as tuples in a list. Each tuple is parsed and evaluated to a certain action.
+        Each action is then executed to build the "action" part of the reply.
+
+        Keyword Arguments:
+            command {str} -- the command to execute (1 or more parts space separated)
+
+        Returns:
+            result_action {dict} -- A dict of:
+                valid_string {str} -- The result of all actions.
+                    Will be added to the response message. (Default: "")
+                badformat_string {str} -- The result of all actions that are of wrong format.
+                    Will be added in the error part of the response message. (Default: "")
+                invalid_string {str} -- The result of all actions that are invalid.
+                    Will be added in the error part of the response message. (Default: "")
+
+        Raises:
+            CommandError -- RedditBot Error which indicates a lack of a command or
+                an invalid command action requested
+        """
+        result_action = {
+            "valid_string": "",
+            "badformat_string": "",
+            "invalid_string": ""
+        }
+
+        def condition_sanitize(action):
+            sep = self.action_separator
+            return (sep in action and action.count(sep) == 1)
+
+        def condition_action(action):
+            return (action in self.action_list)
+
+        try:
+            if not command:  # Handles empty command
+                raise EmptyCommandError(command, cmd=command)
+
+            action_list = command.split(self.cmd_separator)
+            # Unproperly formatted actions
+            badformat_actions = [a for a in action_list if not condition_sanitize(a)]
+            # Handle a fully invalid command
+            if len(badformat_actions) == len(action_list):
+                raise InvalidCommandError(command, cmd=command)
+            # Dealing with valid actions
+            invalid_actions_error_message = ""
+            invalid_actions = []
+            valid_actions = [a for a in action_list if condition_sanitize(a)]
+            tuple_split_valid_actions = [(a[0], a[1]) for a in valid_actions]
+            # Handle at least 1 valid action
+            for action in tuple_split_valid_actions:
+                if not condition_action(action[0]):
+                    invalid_actions.append(action)
+                    invalid_actions_error_message += "\
+                    Attempt to use an invalid Action: {0} with value {1}\n".format(
+                        action[0], action[1])
+                else:
+                    # IMPROVEMENT: reorder actions to print in a consistent fashion
+                    result_action["valid_string"] += self._execute_action(
+                        action=action[0], value=action[1])
+
+            # Dealing with invalid actions
+            # TODO
+            result_action["invalid_string"] = ""
+        except EmptyCommandError as e:
+            pass
+        except InvalidCommandError as e:
+            pass
+        except InvalidActionCommandError as e:
+            pass
+        return result_action
 
     def build_reply(self, message=""):
         """Build the reply to the call.
