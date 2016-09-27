@@ -79,7 +79,7 @@ class RedditBot(object):
             t = Thread(target=self.run())
             t.start()
 
-    def build_reply(self):
+    def build_reply(self, message=""):
         """Build the reply to the call.
 
         Print the formatted music listing to a end user.
