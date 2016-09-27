@@ -1,9 +1,18 @@
-"""TopMusicCharts for Reddit module."""
-import praw
+"""TopMusicCharts Bot for Reddit module."""
 import configparser
+import praw
+import re
 import requests
 
 from threading import Thread
+
+
+class RedditBotError(Exception):
+    """Base class for exceptions in this module."""
+
+    def __init__(self, *args, **kwargs):
+        """RedditBotError constructor."""
+        super().__init__(args, kwargs)
 
 
 class RedditBot(object):
