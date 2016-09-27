@@ -91,7 +91,6 @@ class RedditBot(object):
         seen_comment {list} -- Comments id's of previously parsed comments.
     """
 
-    ini_path = "./praw.ini"
     end_message = (
         "\n\n_______\n\n"
         "|[^(FAQs)](/r/TopMusicCharts/comments/50d7zl/topmusiccharts_bot_info/)"
@@ -101,11 +100,16 @@ class RedditBot(object):
     )
     seen_comment = []
 
-    def __init__(self):
+    def __init__(self, *args, **kwargs):
         """Constructor for RedditBot.
 
         Sets default values and initializes the connection to the Reddit API.
+
+        Raises:
+            APIException: Exception coming from the Reddit API
+            ClientException: Exception not coming from the Reddit API
         """
+        self.ini_path = kwargs.get("praw_ini", "./praw.ini")
         config = configparser.ConfigParser()
         config.read(self.ini_path)
         self.reddit = praw.Reddit(
