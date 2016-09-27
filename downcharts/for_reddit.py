@@ -131,7 +131,20 @@ class RedditBot(object):
         """String representation of a RedditBot."""
         return self.reddit.user.me()
 
-    def run(self):
+    def parse_comment(self, comment):
+        """Parse comment to find message and extra command parameter."""
+        c_body = comment["body"].lower()
+        if (
+            "topmusiccharts!" in c_body or
+            "!topmusiccharts" in c_body and
+            comment["id"] not in self.seen_comment and
+            'TopMusicCharts' != str(comment["author"])
+        ):
+            t = Thread(target=self.run(comment))
+            t.start()
+        self.seen_comment.append(comment["id"])
+
+    def run(self, comment=None):
         """Runner for RedditBot instance.
 
         Runner that executes all the tasks required for a complete and atomic action by a bot.
