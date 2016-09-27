@@ -112,13 +112,20 @@ class RedditBot(object):
         self.ini_path = kwargs.get("praw_ini", "./praw.ini")
         config = configparser.ConfigParser()
         config.read(self.ini_path)
-        self.reddit = praw.Reddit(
-            'DOWNCHARTS',
-            user_agent=config.get('DOWNCHARTS', 'user_agent'),
-            client_id=config.get('DOWNCHARTS', 'oauth_client_id'),
-            client_secret=config.get('DOWNCHARTS', 'oauth_client_secret'),
-            username=config.get('DOWNCHARTS', 'user'),
-            password=config.get('DOWNCHARTS', 'pswd'))
+        try:
+            self.reddit = praw.Reddit(
+                'DOWNCHARTS',
+                user_agent=config.get('DOWNCHARTS', 'user_agent'),
+                client_id=config.get('DOWNCHARTS', 'oauth_client_id'),
+                client_secret=config.get('DOWNCHARTS', 'oauth_client_secret'),
+                username=config.get('DOWNCHARTS', 'user'),
+                password=config.get('DOWNCHARTS', 'pswd'))
+            self.cmd_separator = config.get('DOWNCHARTS', 'cmd_separator', fallback=None)
+            self.action_separator = config.get('DOWNCHARTS', 'action_separator', fallback="=")
+        except praw.exceptions.APIException as e:
+            print("API Exception: " + str(e.message))
+        except praw.exceptions.ClientException as e:
+            print("Client Exception: " + str(e))
 
     def __str__(self):
         """String representation of a RedditBot."""
