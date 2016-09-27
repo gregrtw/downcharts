@@ -88,6 +88,23 @@ class RedditBot(object):
 
 
 # # # #
+# Comment API
+# # # #
+"""Pushshift Query API
+
+Options:
+    subreddit={name} to restrict
+    limit={number} for max return
+    before_id={id} for retrieval of comments FROM this id forward (in time)
+    author={author} for restricted to an author
+    fields={field, field} to restrict the returned data to specific fields
+    link_id={id} for all comments for a submission
+"""
+
+
+
+
+# # # #
 # Main
 # # # #
 
