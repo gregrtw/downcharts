@@ -344,6 +344,13 @@ class RedditBot(object):
 
         Print the formatted music listing to a end user.
         """
+        # TODO Build the reply to send back to the Reddit comment thread
+        pass
+
+    def addon_reply(extra):
+        pass
+
+    def send_reply(reply):
         pass
 
 
