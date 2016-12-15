@@ -144,8 +144,8 @@ class RedditBot(object):
         """Parse comment to find message and extra command parameter."""
         c_body = comment["body"].lower()
         if (
-            "topmusiccharts!" in c_body or
-            "!topmusiccharts" in c_body and
+            ("topmusiccharts!" in c_body or
+            "!topmusiccharts" in c_body) and
             comment["id"] not in self.seen_comment and
             'TopMusicCharts' != str(comment["author"])
         ):
