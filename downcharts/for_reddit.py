@@ -209,6 +209,12 @@ class RedditBot(object):
 
         Take the action command name and the value assigned to it; evaluate the result
             and return the string resulting from the action.
+            Possible Actions:
+            - 'provider': all, djcity, apple, etc. (default: all) # The provider of charts
+            - 'genre': all, edm, rap, alternative, tropical house, etc. (default: all)  # + instead of spaces
+            - 'hype': top, new (default: top)  # Type of charts to retrieve / return
+            - 'order': rank, random, interleave (default: rank)  # How to order the playlist
+            - 'amount': 250 (default: 250 'max')  # how many tracks to return maximum.
 
         Keyword Arguments:
             action {str} -- Action identifier (default: {""})
