@@ -25,5 +25,4 @@ Changes
 Author
 ------
 
-Greg Houle <houle.greg@gmail.com>
-Hans D'aigle <hansdaigle@me.com>
+Greg Houle <sorryeh>
