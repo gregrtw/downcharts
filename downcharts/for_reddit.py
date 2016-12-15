@@ -223,7 +223,47 @@ class RedditBot(object):
         Returns:
             result {str} -- Evaluated action string (ex: Formatted top music list)
         """
-        pass
+        result = ""
+        try:
+            choices_order = ["rank", "random", "interleave"]
+            choices_hype = ["top", "new"]
+            choices_genre = [
+            "all", "trap", "edm", "house", "r&b", "rnb", "electronic", "dance", "hip+hop",
+            "pop", "latin", "reggae", "electronic+dance+music", "tropical+house", "metal", "rock",
+            "classical", "jazz", "rap", "alternative", "indie", "independent", "gangsta+rap",
+            "dubstep", "drum+n+bass", "drumnbass", "drum+and+bass", "kpop", "k-pop", "blues", "country", "folk",
+            "soul", "ambient", "disco", "electro", "electronica", "hardcore", "deep+house",
+            "electro+house", "complextro", "industrial", "aggrotech", "trance", "progressive", "techno"
+            ]
+            choices_provider = ["all", "djcity", "soundcloud", "apple", "spotify"]
+            amount = TRACKS_LIMIT
+            order = "rank"
+            hype = "top"
+            genre = "all"
+            provider = "all"
+            if action and value:
+                if action == "amount":
+                    try:
+                        amount = int(value) if int(value) < TRACKS_LIMIT and int(value) > 0 else TRACKS_LIMIT
+                    except ValueError:
+                        amount = TRACKS_LIMIT
+                if action == "order":
+                    order = value if value in choices_order else order
+                if action == "hype":
+                    hype = value if hype in choices_hype else hype
+                if action == "genre":
+                    genre_list = [g for g in value.split(',') if g in choices_genre]
+                    # TODO build genre query parameter
+                    genre = ','.join(genre_list) if len(genre_list) else genre
+                if action == "provider":
+                    provider_list = [p for p in value.split(',') if p in choices_provider]
+                    provider = ','.join(provider_list) if len(provider_list) else provider
+                # TODO query our website with criteria to retrieve list
+            else:
+                raise EmptyActionError
+            return result
+        except EmptyActionError:
+            pass  #TODO
 
     def _process_command(self, command=""):
         """[Private] Process a command, execute appropriate action.
