@@ -314,7 +314,7 @@ class RedditBot(object):
             # Dealing with valid actions
             invalid_actions_error_message = ""
             invalid_actions = []
-            valid_actions = [a for a in action_list if condition_sanitize(a)]
+            valid_actions = [a.split(self.action_separator, maxsplit=1) for a in action_list if condition_sanitize(a)]
             tuple_split_valid_actions = [(a[0], a[1]) for a in valid_actions]
             # Handle at least 1 valid action
             for action in tuple_split_valid_actions:
