@@ -195,7 +195,7 @@ class RedditBot(object):
             if submission:
                 submission_body = submission["body"]
                 assert type(submission_body) == str
-                match = re.search(r'(!*)TopMusicCharts(!*)', submission["body"])
+                match = re.search(r'(!*)TopMusicCharts(!*)', submission["body"], flags=re.IGNORECASE)
                 command = submission_body[match.start():].split("\n")[0]
         except KeyError as e:
             print("KeyError:", e)
