@@ -6,6 +6,8 @@ import requests
 
 from threading import Thread
 
+TRACKS_LIMIT = 250  # artifical limit of tracks returned
+
 
 class RedditBotError(Exception):
     """Base class for exceptions in this module."""
