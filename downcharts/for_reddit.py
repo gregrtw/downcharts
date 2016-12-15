@@ -166,6 +166,7 @@ class RedditBot(object):
         """
         if comment:
             command = self.process_submission(comment)
+            # FIXME Modify _process_command to put all "actions" together when passed to _execute
             result = self._process_command(command)
             reply = self.build_reply(result.get("valid_string"))
             if result.get("invalid_string", None):
