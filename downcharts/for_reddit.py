@@ -329,14 +329,14 @@ class RedditBot(object):
                         action=action[0], value=action[1])
 
             # Dealing with invalid actions
-            # TODO
+            # TODO Add invalid actions and their error message to the invalid string result
             result_action["invalid_string"] = ""
         except EmptyCommandError as e:
-            pass
+            pass  # TODO
         except InvalidCommandError as e:
-            pass
+            pass  # TODO
         except InvalidActionCommandError as e:
-            pass
+            pass  # TODO
         return result_action
 
     def build_reply(self, message=""):
