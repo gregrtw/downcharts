@@ -101,6 +101,13 @@ class RedditBot(object):
         "\n|-|-|-|-|-|-|"
     )
     seen_comment = []
+    action_list = [
+        "provider",  # all, djcity, soundcloud, apple, spotify (etc.)
+        "genre",  # all, hip hop, rap, edm, tropical house, alternative (etc.)
+        "hype",  # top, new
+        "order",  # rank, random, interleave
+        "amount"  # max returned in playlist
+    ]
 
     def __init__(self, *args, **kwargs):
         """Constructor for RedditBot.
