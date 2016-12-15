@@ -305,7 +305,7 @@ class RedditBot(object):
             if not command:  # Handles empty command
                 raise EmptyCommandError(command, cmd=command)
 
-            action_list = command.split(self.cmd_separator)
+            action_list = command.lower().split(self.cmd_separator)
             # Unproperly formatted actions
             badformat_actions = [a for a in action_list if not condition_sanitize(a)]
             # Handle a fully invalid command
